@@ -1,0 +1,12 @@
+digraph tree {
+    graph [rankdir=BT, size="16!"];
+    splines=false;
+    node [style=filled];
+    nodesep=1.1;
+
+    user [label="user data", shape="rect"];
+    filter [label="filter", shape="circle"];
+    storage [label="storage", shape="rect"];
+
+    storage -> filter -> user
+}

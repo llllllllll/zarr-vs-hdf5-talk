@@ -1,0 +1,28 @@
+digraph tree {
+    graph [rankdir=TB];
+    splines=false;
+    node [style=filled];
+    nodesep=1.1;
+
+    file [label="file", shape="note"];
+    root [label="/", shape="circle"];
+    file -> root
+
+    dset_0 [label="dset_0", shape="rect"];
+    dset_1 [label="dset_1", shape="rect"];
+    dset_2 [label="dset_2", shape="rect"];
+    group_0 [label="group_0/", shape="circle"];
+    group_1 [label="group_1/", shape="circle"];
+
+    root -> {dset_0 dset_1 dset_2 group_0, group_1}
+
+    dset_3 [label="dset_3", shape="rect"];
+    dset_4 [label="dset_4", shape="rect"];
+
+    group_0 -> {dset_3 dset_4}
+
+    dset_5 [label="dset_5", shape="rect"];
+    group_2 [label="group_2/", shape="circle"];
+
+    group_1 -> {dset_5 group_2}
+}
