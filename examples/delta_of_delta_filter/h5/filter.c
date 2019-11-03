@@ -99,9 +99,11 @@ static htri_t can_apply(hid_t UNUSED(dcpl_id), hid_t type_id, hid_t UNUSED(space
            H5Tget_size(type_id) == 8;
 }
 
+const int dod_filter_id = 277;
+
 static H5Z_class2_t dod_filter = {
     .version = H5Z_CLASS_T_VERS,
-    .id = 277,
+    .id = dod_filter_id,
     .encoder_present = 1,
     .decoder_present = 1,
     .name = "delta_of_deltas",

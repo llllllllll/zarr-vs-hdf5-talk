@@ -1,3 +1,4 @@
+import numcodecs
 from numcodecs.abc import Codec
 from numcodecs.compat import ensure_ndarray
 import numpy as np
@@ -6,9 +7,8 @@ import numpy as np
 class DeltaOfDelta(Codec):
     codec_id = 'delta_of_delta'
 
-    def __init__(self):
-        self.dtype = np.dtype('i8')
-        self.astype = np.dtype('i2')
+    dtype = np.dtype('i8')
+    astype = np.dtype('i2')
 
     def encode(self, buf):
         arr = ensure_ndarray(buf).reshape(-1, order='A')
@@ -52,3 +52,6 @@ class DeltaOfDelta(Codec):
 
         np.cumsum(out[1:], out=out[1:])
         return np.cumsum(out, out=out)
+
+
+numcodecs.register_codec(DeltaOfDelta)

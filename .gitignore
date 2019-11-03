@@ -5,6 +5,7 @@ slides.out
 slides.snm
 slides.toc
 slides.vrb
+slides.pyg
 
 auto/*
 _minted-slides/*

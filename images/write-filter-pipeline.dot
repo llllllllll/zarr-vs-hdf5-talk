@@ -6,7 +6,7 @@ digraph tree {
 
     user [label="user data", shape="rect"];
     filter_0 [label="filter 0", shape="circle"];
-    filter_1 [label="filter 0", shape="circle"];
+    filter_1 [label="filter 1", shape="circle"];
     filter_2 [label="filter 2", shape="circle"];
     storage [label="storage", shape="rect"];
 
