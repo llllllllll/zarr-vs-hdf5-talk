@@ -22,16 +22,12 @@
   \includegraphics[width=1.00\textwidth]{images/multidimensional-data.png}
 \end{frame}
 
-\begin{frame}{Multidimensional Data}
-  \includegraphics[width=1.00\textwidth]{images/2d-array.png}
-\end{frame}
-
-\begin{frame}{Row Order}
-  \includegraphics[width=1.00\textwidth]{images/row-order.png}
-\end{frame}
-
-\begin{frame}{Column Order}
-  \includegraphics[width=1.00\textwidth]{images/column-order.png}
+\begin{frame}{Compression}
+  \begin{itemize}
+  \item[]<+-> same information in less space
+  \item[]<+-> lossless
+  \item[]<+-> lossy
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Chunks}
@@ -52,7 +48,6 @@
   \item[]<+-> throughput/latency access trade off
   \item[]<+-> reduce io
   \item[]<+-> facilitate caching
-  \item[]<+-> allow extending the shape of the dataset
   \end{itemize}
 \end{frame}
 
@@ -130,18 +125,16 @@ array([...]])
 \begin{frame}[fragile]{\texttt{h5py}}
   \begin{minted}{python}
 >>> import h5py
->>> f = h5py.File('file.h5')
+>>> f = h5py.File('file.h5', 'r+')
 >>> f
 <HDF5 file "file.h5" (mode r+)>
   \end{minted}
-  \pause
 
   \begin{minted}{python}
 >>> f['dset'] = np.arange(20 * 5).reshape(20, 5)
 >>> f['dset']
 <HDF5 dataset "dset": shape (20, 5), type "<i8">
 \end{minted}
-  \pause
 
   \begin{minted}{python}
 >>> f['dset'][10, 3]
@@ -188,7 +181,7 @@ array([...]])
   \item[]<+-> filters and compressors
   \item[]<+-> storage backends
   \item[]<+-> which extensions come as part of the library itself?
-  \item[]<+-> how to extend the libraries for non-standard use cases?
+  \item[]<+-> how to extend the libraries for non-default use cases?
   \item[]<+-> ease of distributing extensions
   \end{itemize}
 \end{frame}
@@ -199,11 +192,10 @@ array([...]])
   \begin{definition}[Filter]
     \begin{itemize}
     \item[]<+-> a function that sits between the raw data and the storage
-    \item[]<+-> converts data on read and write
-    \item[]<+-> act on one chunk at a time
-    \item[]<+-> composable
     \item[]<+-> compressors
     \item[]<+-> checksumming
+    \item[]<+-> composable
+    \item[]<+-> act on one chunk at a time
     \end{itemize}
   \end{definition}
 \end{frame}
@@ -352,7 +344,7 @@ filter_id = ctypes.c_int.in_dll(
   \pause
 
   \begin{minted}{python}
-f = h5py.File('a.h5')
+f = h5py.File('a.h5', 'r+')
 dset = f.create_dataset(
     'dset',
     compression=filter_id,
@@ -366,10 +358,11 @@ dset = f.create_dataset(
   \begin{itemize}
   \item[]<+-> \texttt{h5py} statically links to \texttt{hdf5} by default
   \item[]<+-> \texttt{h5py} doesn't re-export \texttt{H5Zregister}
+  \item[]<+-> \texttt{\$ HDF5\_VERSION=1.10 pip install --no-binary :all: h5py}
   \item[]<+-> hard to thread parameters
   \item[]<+-> hard to manage state
   \item[]<+-> must use \texttt{malloc}/\texttt{free}
-  \item[]<+-> can't use custom pipelines in \texttt{h5py} (I think)
+  \item[]<+-> can't use custom pipelines in \texttt{h5py} yet (I think)
   \item[]<+-> doesn't trigger until flush
   \end{itemize}
 \end{frame}
@@ -628,7 +621,6 @@ class MyStorageBackend(MutableMapping):
       \item responsive and helpful devs
       \item Python focused/specific*
       \item easier to prototype extensions
-      \item but probably don't need them
       \end{itemize}
     \end{block}
 
@@ -639,7 +631,6 @@ class MyStorageBackend(MutableMapping):
       \item cross language support
       \item very single threaded
       \item harder to write extensions
-      \item and may need them
       \end{itemize}
     \end{block}
   \end{columns}
